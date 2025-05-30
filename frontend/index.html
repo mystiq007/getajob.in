@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GetAJob.in - Automated Job Search</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .upload-section {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+        }
+        .job-lists {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .job-list {
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .job-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:disabled {
+            background: #ccc;
+        }
+        #status {
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>GetAJob.in</h1>
+        
+        <div class="upload-section">
+            <h2>Upload Your Résumé</h2>
+            <input type="file" id="resume" accept=".pdf,.doc,.docx">
+            <button id="findJobs">Find & Apply</button>
+        </div>
+
+        <div class="job-lists">
+            <div class="job-list">
+                <h3>High Fit Jobs</h3>
+                <ul id="highFit"></ul>
+            </div>
+            <div class="job-list">
+                <h3>Review Fit Jobs</h3>
+                <ul id="reviewFit"></ul>
+            </div>
+        </div>
+
+        <button id="autoApply" disabled>Start Auto-Apply</button>
+        
+        <div id="status">Status: Ready</div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html> 
