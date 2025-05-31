@@ -1,3 +1,5 @@
+const BACKEND_URL = 'http://localhost:8001';
+
 // DOM Elements
 const resumeInput = document.getElementById('resume');
 const findJobsBtn = document.getElementById('findJobs');
@@ -36,7 +38,7 @@ async function handleFindJobs() {
         statusDiv.textContent = 'Status: Discovering jobs...';
         
         // Discover jobs
-        const discoverResponse = await fetch('/api/discover', {
+        const discoverResponse = await fetch(`${BACKEND_URL}/discoverJobs`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ resume: currentResume })
@@ -44,7 +46,7 @@ async function handleFindJobs() {
         const { jobs } = await discoverResponse.json();
         
         // Filter jobs
-        const filterResponse = await fetch('/api/filter', {
+        const filterResponse = await fetch(`${BACKEND_URL}/scoreFit`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ resume: currentResume, jobs })
@@ -69,7 +71,7 @@ async function handleAutoApply() {
         autoApplyBtn.disabled = true;
         
         for (const job of discoveredJobs) {
-            const response = await fetch('/api/apply', {
+            const response = await fetch(`${BACKEND_URL}/fillForm`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ resume: currentResume, job })
@@ -106,26 +108,20 @@ function renderJobs(jobs) {
     });
 }
 
-// Update Job Status
+// Update Job Status (stub for now)
 function updateJobStatus(jobId, status) {
-    const jobItems = document.querySelectorAll('.job-item');
-    jobItems.forEach(item => {
-        if (item.dataset.jobId === jobId) {
-            item.innerHTML += `<br>Status: ${status.status}`;
-        }
-    });
+    // You can implement this if you add a status endpoint to the backend
 }
 
-// Poll Status
-setInterval(async () => {
-    try {
-        const response = await fetch('/api/status');
-        const { statuses } = await response.json();
-        
-        Object.entries(statuses).forEach(([jobId, status]) => {
-            updateJobStatus(jobId, status);
-        });
-    } catch (error) {
-        console.error('Status poll error:', error);
-    }
-}, 2000); 
+// Comment out status polling since /status endpoint does not exist
+// setInterval(async () => {
+//     try {
+//         const response = await fetch('/api/status');
+//         const { statuses } = await response.json();
+//         Object.entries(statuses).forEach(([jobId, status]) => {
+//             updateJobStatus(jobId, status);
+//         });
+//     } catch (error) {
+//         console.error('Status poll error:', error);
+//     }
+// }, 2000); 

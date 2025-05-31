@@ -1,13 +1,4 @@
-// CrewAI client stub - replace with real implementation later
-const crewAI = {
-  scoreFit: async (resume, job) => {
-    // Stub implementation
-    return {
-      score: Math.random() * 100,
-      feedback: 'Sample feedback'
-    };
-  }
-};
+const CREWAI_URL = process.env.CREWAI_URL || 'http://localhost:8000';
 
 export async function handler(req, res) {
   // Enable CORS
@@ -27,13 +18,14 @@ export async function handler(req, res) {
 
   try {
     const { resume, jobs } = req.body;
-    const scoredJobs = await Promise.all(
-      jobs.map(async (job) => {
-        const score = await crewAI.scoreFit(resume, job);
-        return { ...job, ...score };
-      })
-    );
-    res.status(200).json({ jobs: scoredJobs });
+    // Forward to Python CrewAI backend
+    const response = await fetch(`${CREWAI_URL}/scoreFit`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ resume, jobs })
+    });
+    const data = await response.json();
+    res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

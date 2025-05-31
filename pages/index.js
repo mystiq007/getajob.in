@@ -1,0 +1,1 @@
+export default function Home() { return (<div style={{padding:40}}><h1>GetAJob.in</h1><p>Welcome! Your Next.js app is running.<br/>To use your static HTML UI, run: <code>npx serve frontend</code> and open <a href='http://localhost:3000'>http://localhost:3000</a>.</p></div>); }
